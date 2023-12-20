@@ -10,10 +10,8 @@ export class HomeComponent implements OnInit {
   regsiterMode= false;
   users:any;
 
-  constructor(private http:HttpClient) {}
+  constructor() {}
   ngOnInit(): void {
-
-    this.getUsers();
 
   }
 
@@ -21,14 +19,7 @@ export class HomeComponent implements OnInit {
     this.regsiterMode = !this.regsiterMode;
   }
 
-  getUsers(){
-    this.http.get('https://localhost:5001/api/users').subscribe({
-      next: response=> this.users = response,
-      error: error => console.log(error),
-      complete:()=>console.log('Request is completed')
 
-    })
-  }
 
   cancelRegisterMode(event:boolean){
     console.log("cancel register!")
