@@ -146,7 +146,7 @@
         "Country": "Burkina Faso",
         "Photos": [
             {
-                "url": "https://randomuser.me/api/portraits/men/57.jpg",
+                "Url": "https://randomuser.me/api/portraits/men/57.jpg",
                 "IsMain": true
             }
         ]
@@ -165,7 +165,7 @@
         "Country": "Poland",
         "Photos": [
             {
-                "url": "https://randomuser.me/api/portraits/men/11.jpg",
+                "Url": "https://randomuser.me/api/portraits/men/11.jpg",
                 "IsMain": true
             }
         ]
@@ -184,7 +184,7 @@
         "Country": "Luxembourg",
         "Photos": [
             {
-                "url": "https://randomuser.me/api/portraits/men/93.jpg",
+                "Url": "https://randomuser.me/api/portraits/men/93.jpg",
                 "IsMain": true
             }
         ]
