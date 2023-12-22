@@ -17,7 +17,7 @@ model:any ={};
 
   constructor(public accountService:AccountService,private router: Router,private toastr: ToastrService) {}
   ngOnInit(): void {
-  
+    console.log(this.accountService.currentUser$);
   }
 
 
