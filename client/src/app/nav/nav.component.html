@@ -16,7 +16,7 @@
           </li>
          
       </ng-container>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="accountService.currentUser$| async">
         <a class="nav-link" routerLink="/errors" routerLinkActive="active">Errors</a>
       </li>
         </ul>
