@@ -2,8 +2,7 @@
 
 public class ApiException
 {
-        private readonly string message;
-
+    
     public ApiException(int statusCode,string message,string details)
     {
         Message = message;
