@@ -19,7 +19,7 @@ namespace API.Data
         {
             return await _context.Likes.FindAsync(sourceUserId,targetUserId);
         }
-
+    
         public async Task<PagedList<LikeDto>> GetUserLikes(LikesParams likesParams)
         {
             var users = _context.Users.OrderBy(u=>u.UserName).AsQueryable();

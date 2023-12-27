@@ -11,10 +11,10 @@ import { MembersService } from 'src/app/_services/members.service';
 export class MemberCardComponent implements OnInit{
 
   @Input() member:Member | undefined;
+  @Output() removeLike:EventEmitter<any>= new EventEmitter();
 
-  /**
-   *
-   */
+  color:string="red"
+
   constructor(private memberService: MembersService,private toastr: ToastrService) {}
 
   ngOnInit(): void {
@@ -26,6 +26,10 @@ export class MemberCardComponent implements OnInit{
       next: ()=>
       {
         this.toastr.success("You have liked "+ member.knownAs);
+      },
+      error:()=>{
+        this.removeLike?.emit();
+
       }
     })
   }

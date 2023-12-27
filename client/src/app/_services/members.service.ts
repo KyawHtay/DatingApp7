@@ -95,6 +95,11 @@ export class MembersService {
     return this.http.post(this.baseUrl+'likes/'+username,{});
   }
 
+  removeLike(username:string){
+    console.log(this.baseUrl+'likes/'+username);
+    return this.http.delete(this.baseUrl+'likes/'+username,{});
+  }
+
   getLikes(predicate: string,pageNumber:number,pageSize:number)
   {
     let params = this.getPaginationHeaders(pageNumber,pageSize);

@@ -35,7 +35,13 @@ export class ListsComponent implements OnInit{
       this.pageNumber = event.page;
       this.loadLikes();
     }
-
+  }
+  removeLike(userName:string){
+    this.members= this.members?.filter((e,i)=>e.userName!== userName)
+    console.log(userName);
+    this.memberService.removeLike(userName).subscribe({
+      next: _=>console.log('remove like'+userName)
+    })
   }
 
 }

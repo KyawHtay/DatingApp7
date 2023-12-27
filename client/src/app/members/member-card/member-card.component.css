@@ -30,9 +30,7 @@
     opacity: 1;
 }
 
-.fa-heart{
-    color:red;
-}
+
 .animate {
     transition: all 0.3s ease-in-out;
 }
