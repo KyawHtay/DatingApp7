@@ -26,6 +26,13 @@ export class MemberListComponent implements OnInit {
   ngOnInit(): void {
     this.loadMembers();
   }
+  removeLike(userName:string){
+
+    console.log(userName);
+    this.memberService.removeLike(userName).subscribe({
+      next: _=>console.log('remove like'+userName)
+    })
+  }
 
   loadMembers(){
     if(this.userParams) {
