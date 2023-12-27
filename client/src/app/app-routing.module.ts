@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
-import { ListComponent } from './list/list.component';
+import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { authGuard } from './_guards/auth.guard';
 import { TestErrorComponent } from './errors/test-error/test-error.component';
@@ -21,7 +21,7 @@ const routes: Routes = [
     {path:'members',component: MemberListComponent,canActivate: [authGuard]},
     {path:'members/:username',component: MemberDetailComponent},
     {path:'member/edit',component: MemberEditComponent,canDeactivate:[preventUnsavedChangesGuard]},
-    {path:'lists',component: ListComponent},
+    {path:'lists',component: ListsComponent},
     {path:'messages',component: MessagesComponent},
    ]
   },

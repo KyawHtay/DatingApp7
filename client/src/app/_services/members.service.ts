@@ -19,7 +19,7 @@ export class MembersService {
   userParams: UserParms | undefined;
  
   constructor(private http:HttpClient,private accountService:AccountService) { 
-    this.accountService.currentUser$.pipe(take(1)).subscribe({
+    this.accountService.currentUser$.subscribe({
       next: user=>{
         if(user) {
           this.userParams = new UserParms(user);
@@ -91,9 +91,20 @@ export class MembersService {
     return this.http.delete(this.baseUrl+'users/delete-photo/'+photoId);
   }
 
-  private getPaginatedResult<T>(url:string, params: HttpParams) {
-    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>;
+  addLike(username:string){
+    return this.http.post(this.baseUrl+'likes/'+username,{});
+  }
 
+  getLikes(predicate: string,pageNumber:number,pageSize:number)
+  {
+    let params = this.getPaginationHeaders(pageNumber,pageSize);
+    params = params.append('predicate',predicate)
+    return this.getPaginatedResult<Member[]>(this.baseUrl+'likes',params);
+  }
+
+  private getPaginatedResult<T>(url:string, params: HttpParams) {
+
+    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>;
     return this.http.get<T>(url, { observe: 'response', params }).pipe(
       map(response => {
         if (response.body) {
