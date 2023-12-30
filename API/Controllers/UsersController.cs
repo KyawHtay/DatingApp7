@@ -38,15 +38,13 @@ public class UsersController : BaseApiController
         Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage,users.PageSize,
                 users.TotalCount,users.TotalPages));
 
-        return Ok(users);
-       
+        return Ok(users); 
         
     }
+     [Authorize(Roles="Member")]
     [HttpGet("{username}")]
-    public async Task<ActionResult<MemberDto>> GetUsers(string username){
+    public async Task<ActionResult<MemberDto>> GetUser(string username){
         return await _userRepository.GetMemberAsync(username);
-     
-
     }
     [HttpPut]
     public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
@@ -76,7 +74,7 @@ public class UsersController : BaseApiController
         user.Photos.Add(photo);
         if( await _userRepository.SaveAllAsync()) {
 
-            return CreatedAtAction(nameof(GetUsers),
+            return CreatedAtAction(nameof(GetUser),
                         new {username= user.UserName},
                         _mapper.Map<PhotoDto>(photo));
         }
