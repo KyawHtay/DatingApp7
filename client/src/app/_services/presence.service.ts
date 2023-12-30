@@ -27,22 +27,15 @@ export class PresenceService {
       this.hubConnection.start().catch(error=>console.log(error));
 
       this.hubConnection.on('UserIsOnline',username=>{
-        this.onlineUsers$.pipe(take(1)).subscribe({
-          next: usernames=>this.onlineUserSource
-                .next([...usernames,username])
-        })
         this.toastr.info(username+' has connected');
+       
       });
 
       this.hubConnection.on('UserIsOffline',username=>{
-        this.onlineUsers$.pipe(take(1)).subscribe({
-          next: usernames=>{this.onlineUserSource
-                  .next([...usernames.filter(x=>x !==username)]);
-                this.toastr.info(username+' has disconnected');
-                }
+        this.toastr.info(username+' has disconnected');
         })
     
-      });
+   
 
       
       this.hubConnection.on('GetOnlineUsers', usernames=>{
