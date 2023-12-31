@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using API.Data;
 using API.Entities;
 using API.Extensions;
@@ -32,6 +33,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
+app.MapHub<MessageHub>("hubs/message");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
@@ -41,6 +43,9 @@ try
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
+
+    //context.Connections.RemoveRange(context.Connections);
+    await context.Database.ExecuteSqlAsync(FormattableStringFactory.Create("DELETE FROM [Connections]"));
     await Seed.SeedUser(userManager,roleManager);
 }
 catch(Exception ex)
