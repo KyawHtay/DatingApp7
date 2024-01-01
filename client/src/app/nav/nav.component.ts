@@ -31,6 +31,7 @@ model:any ={};
         {
           this.memberService.resetUserParams();
           this.router.navigateByUrl('/members');
+          this.model={};
         },
       error: error=> {
         console.log(error);
