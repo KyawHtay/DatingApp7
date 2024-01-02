@@ -31,9 +31,13 @@ app.UseCors(builder=>builder
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<MessageHub>("hubs/message");
+app.MapFallbackToController("index","Fallback");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
@@ -51,7 +55,7 @@ try
 catch(Exception ex)
 {
     var logger = services.GetService<ILogger<Program>>();
-    logger.LogError(ex,"AN error occured during migraion.");
+    logger.LogError(ex,"An error occured during migraion.");
 }
 
 app.Run();
