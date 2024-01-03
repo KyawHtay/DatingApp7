@@ -19,12 +19,16 @@ public class UserRepository : IUserRepository
         _mapper = mapper;
     }
 
-    public async Task<MemberDto> GetMemberAsync(string username)
+    public async Task<MemberDto> GetMemberAsync(string username,
+        bool isCurrentUser)
     {
-        return await _context.Users
+        var query=  _context.Users
             .Where(x=>x.UserName==username)
             .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-            .SingleOrDefaultAsync();
+            .AsQueryable();
+            if(isCurrentUser) query = query.IgnoreQueryFilters();
+            
+        return await query.FirstOrDefaultAsync();
     }
 
     public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
@@ -54,11 +58,25 @@ public class UserRepository : IUserRepository
         return await _context.Users.FindAsync(id);
     }
 
+    public async Task<AppUser>  GetUserByPhotoId(int photoId)
+    {
+        return await _context.Users
+            .Include(p=>p.Photos)
+            .IgnoreQueryFilters()
+            .Where(p=>p.Photos.Any(p=>p.Id==photoId)).FirstOrDefaultAsync();
+    }
+
     public async Task<AppUser> GetUserByUsernameAsAsync(string username)
     {
         return await _context.Users
             .Include(p=>p.Photos)
             .SingleOrDefaultAsync(x=>x.UserName==username);
+    }
+
+    public async Task<string> GetUserGender(string username)
+    {
+        return await _context.Users.Where(x=>x.UserName==username)
+                .Select(x=>x.Gender).FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<AppUser>> GetUsersAsync()
@@ -68,10 +86,7 @@ public class UserRepository : IUserRepository
             .ToListAsync();
     }
 
-    public async Task<bool> SaveAllAsync()
-    {
-        return await _context.SaveChangesAsync()>0;
-    }
+ 
 
     public void Update(AppUser user)
     {

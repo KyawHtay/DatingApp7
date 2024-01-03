@@ -19,6 +19,7 @@ export class PhotoEditorComponent implements OnInit {
   hasBaseDropZoneOver  =false;
   baseUrl =environment.apiUrl;
   user: User | undefined;
+  status: string=""
   
   constructor(private accountService:AccountService,private memberService: MembersService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -59,6 +60,8 @@ export class PhotoEditorComponent implements OnInit {
       }
     })
   }
+
+ 
   initializeUploader(){
     this.uploader = new FileUploader({
       url: this.baseUrl + 'users/add-photo',
@@ -82,6 +85,7 @@ export class PhotoEditorComponent implements OnInit {
           this.user.photoUrl =photo.url;
           this.member.photoUrl =photo.url;
           this.accountService.setCurrentUser(this.user);
+          
         }
       }
     }
