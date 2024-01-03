@@ -14,6 +14,7 @@ import { PresenceService } from 'src/app/_services/presence.service';
 import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/user';
 import { take } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-member-detail',
@@ -24,15 +25,19 @@ import { take } from 'rxjs';
 })
 export class MemberDetailComponent implements OnInit,OnDestroy{
   @ViewChild('memberTabs',{static:true}) memberTabs?: TabsetComponent
+ 
   member : Member ={} as Member;
   images: GalleryItem[]=[];
   activeTab?: TabDirective;
   messages: Message[]=[];
   user?: User;
+  liked="btn-primary";
 
   constructor(private accountService: AccountService,
       private route: ActivatedRoute,
       private messgeService: MessagesService,
+      private memberService: MembersService,
+      private toastr:ToastrService,
       public presenceService:PresenceService) {
         this.accountService.currentUser$.pipe(take(1)).subscribe({
           next: user=>{
@@ -90,6 +95,24 @@ export class MemberDetailComponent implements OnInit,OnDestroy{
     for(const photo of this.member?.photos){
       this.images.push(new ImageItem({src: photo.url,thumb: photo.url}))
     }
+  }
+  addLike(member:Member){
+    this.memberService.addLike(member.userName).subscribe({
+      next: ()=>
+      {
+        this.toastr.success("You have liked "+ member.knownAs);
+        this.liked="btn-danger";
+      },
+      error:()=>{
+        this.memberService.removeLike(member.userName).subscribe({
+          next: ()=>{
+            console.log("You liked already")
+            this.liked="btn-primary"
+          }
+        });
+        
+      }
+    })
   }
 
 }
